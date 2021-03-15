@@ -2,17 +2,54 @@ code {
   background: #d0d0d5;
 }
 
+body {
+  background: rgb(255, 205, 213);
+  font-family: "Roboto Mono", monospace;
+  text-align: center;
+}
+
+.font {
+  font-family: "Roboto Mono", monospace;
+}
+
 .container {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: max-content max-content;
+  grid-template-rows: 70% 30%;
+  background-color: skyblue;
+  width: fit-content;
+  height: fit-content;
+  margin: auto;
+  padding: 15px;
+}
+
+#sudoku-grid {
+  text-align: center;
+  display: inline;
+  background-color: #d0d0d5;
+  height: min-content;
+  width: fit-content;
+  justify-self: right;
+  margin-right: 20px;
 }
 
 .form-container {
   max-width: 95%;
+  height: 100%;
+  grid-column: 1 / span 2;
+}
+
+.check-container {
+  position: relative;
+  height: fit-content;
 }
 
 textarea {
-  width: 100%;
+  width: fit-content;
+  resize: none;
+  margin-left: 20px;
+  margin-top: 30px;
+  height: 100px;
 }
 
 #user-stories {
@@ -23,12 +60,6 @@ textarea {
   color: red;
   display: inline;
   margin-left: 10px;
-}
-
-#sudoku-grid {
-  margin-left: 20px;
-  text-align: center;
-  display: inline;
 }
 
 .grid {
