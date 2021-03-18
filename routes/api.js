@@ -9,8 +9,9 @@ module.exports = function (app) {
   app.route('/api/check')
     .post((req, res) => {
       let puzzle = req.body.puzzle
-      let coord = req.body.coordinate
-      let coordRegex = /[a-i][1-9]/i
+      let solved = solver.solve(puzzle)
+      let coord = req.body.coordinate.toUpperCase()
+      let coordRegex = /[a-i][1-9]{1}(?!.)/i
       let val = req.body.value
       let check
       let responseObject = {}
@@ -30,8 +31,11 @@ module.exports = function (app) {
         let cond1 = solver.checkRowPlacement(puzzle, row, col, val)
         let cond2 = solver.checkColPlacement(puzzle, row, col, val)
         let cond3 = solver.checkRegionPlacement(puzzle, row, col, val)
+        let cond4 = solved[solver.getIndex(coord[0], coord[1])] == val
+        let cond5 = puzzle[solver.getIndex(coord[0], coord[1])] == '.'
+        let cond6 = puzzle[solver.getIndex(coord[0], coord[1])] == val
 
-        if(cond1 && cond2 && cond3) {
+        if(cond1 && cond2 && cond3 && cond4 || cond6) {
           check = true
           responseObject['valid'] = check
         } else {
@@ -46,6 +50,9 @@ module.exports = function (app) {
           }
           if(!cond3) {
             responseObject.conflict.push('region')
+          }
+          if(!cond5) {
+            responseObject.conflict.push('spot already taken')
           }
         }
         res.send(responseObject)
